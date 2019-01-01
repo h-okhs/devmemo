@@ -16,14 +16,18 @@ chocolatry(パッケージ管理), uru(rbenvみたいなの)といったツー�
 4. uruインストール
    1. <https://bitbucket.org/jonforums/uru/wiki/Downloads>
    2. cinst uru.0.8.5.nupkg
-   3. uru admin add E:\tools\ruby2422\bin --tag ruby2422
+   3. Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+   4. uru admin add E:\tools\ruby2422\bin --tag ruby2422
 5. MSYS2インストール
    1. cinst MSYS2 --params "/NoUpdate"
-   2. cmd/powershell再起動
+   2. cmd/powershe再起動(VSCodeのターミナルの場合はVSCode再起動)
    3. ridk install 2 3
-6. Bundlerインストール
+6. 各種GEMインストール
    1. uru ruby2422
-   2. gem bunder install
+   2. gem install bunder
+   3. gem install rubocop ほか
+   4. gem install ruby-debug-ide
+   5. gem install debase (or gem install byebug)
 
 ## gem
 
