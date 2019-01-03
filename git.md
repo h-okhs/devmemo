@@ -35,3 +35,8 @@
 4. masterにマージ
    1. git checkout master
    2. git merge --no-ff tuto2
+
+## HerokuにブランチPush
+
+git push heroku branch:master
+
