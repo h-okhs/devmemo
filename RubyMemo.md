@@ -5,7 +5,7 @@
 ### Ruby本体
 
 Rubyのバージョンは切り替えられるようにしておいたほうがよさそう。
-chocolatry(パッケージ管理), uru(rbenvみたいなの)といったツールを利用してruby本体などのインストールを行う。
+chocolatry(パッケージ管理), uru(rbenvみたいなの)といったツールを利用してインストールを行う。
 
 1. 前準備
    1. gemインストール時のデフォルトオプションの指定：%USERPROFILE%\.gemrc に gem: --no-ri --no-rdoc
@@ -13,19 +13,19 @@ chocolatry(パッケージ管理), uru(rbenvみたいなの)といったツー�
    1. <https://chocolatey.org/install>
    2. 環境変数 ChocolateyToolsLocation(chocolateyでのパッケージインストール先)変更
 3. rubyインストール
-   1. $ cinst ruby –version 2.4.2.2 -ia ‘/dir=C:\tools\ruby2422’
+   1. $ cinst ruby –version 2.4.3.1 -ia ‘/dir=C:\tools\ruby2431’
    2. 二つ目以降は-force
 4. uruインストール
    1. <https://bitbucket.org/jonforums/uru/wiki/Downloads>
    2. $ cinst uru.0.8.5.nupkg
    3. $ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
-   4. $ uru admin add E:\tools\ruby2422\bin --tag ruby2422
+   4. $ uru admin add E:\tools\ruby2431\bin --tag ruby243
 5. MSYS2インストール
    1. $ cinst MSYS2 --params "/NoUpdate"
    2. cmd/powershell再起動(VSCodeのターミナルの場合はVSCode再起動)
    3. $ ridk install 2 3
 6. 各種GEMインストール
-   1. $ uru ruby2422
+   1. $ uru ruby243
    2. $ gem install bunder
 
 ### VSCode
@@ -61,8 +61,10 @@ E:\repo\rails01に生成する場合
 5. $ bundle exec rails new rails01 --skip-bundle(ruby本体にインストールされるのを防止) -T(テスト生成しない)
 6. ※オプション .bundle, vendor, gemfile, gemfile.lockを削除
 7. $ cd rails01
-8. $ bundle install --path=vendor/bundle
+8. $ bundle install --path=vendor/bundle --without production
 9. gitignoreに/vendor追加
+
+これでrailsアプリケーション内で使われるgemはアプリケーション内にのみ適用される状態になった。bundle installのオプションは.bundle/configに保存されるため、gemを追加する場合など、2回目以降はbundle installのみでOK。ここでインストールしたgemを実行する場合は、bundle exec railsなどのようにbundle execをつけて実行する。
 
 ## Railsチュートリアル
 
@@ -108,6 +110,42 @@ E:\repo\rails01に生成する場合
   - application.html.erbが全ページのベーステンプレート？
 
 ### 4章
+
+- viewでは組み込み関数以外に自作の関数も利用可
+- application_helper.rbでのヘルパメソッドの定義
+- bundle exec rails console
+- API <http://ruby-doc.org/> <https://docs.ruby-lang.org/ja/search/>
+- 文字列
+  - 文字列展開 "#{変数名} 文字列"
+  - s.split("z")
+  - s.upcase, s.downcase
+  - ダブルクオート:式展開・エスケープあり　シングル:なし
+- puts:改行あり print:改行なし
+- 末尾の?はboolean返却　s.nil?, s.empty?, s.include?("aaa")
+- 論理演算子=Cと同じ
+- 後続のif, unlessで条件を満たす場合のみ実行
+- メソッドからreturnしない場合、最後に評価された式が返却される
+- 配列
+  - a[1,2,3] ⇒ a[0] 添え字マイナスも可
+  - a.first, a.second, a.last, a.empty, a.include, a.reverse, a.shuffle ⇒ aは変更されない
+  - a.sort! ⇒ aが変更される=破壊的 ⇒ !をつける
+  - a.push(6), a << "7" << "8" ⇒ 異なる型が共存可能
+  - a.join ⇒ "123678", a.join(",") ⇒ "1,2,3,6,7,8"
+  - 0..9 , (1..10).to_a, a[0..2]⇒[1,2,3], ('a'..'c').to_a⇒["a","b","c"]
+  - %w[a b c] ⇒ ["a","b","c"]
+- ブロック
+  - {} もしくは do..end
+  - |変数|
+  - 3.times {puts "aa"} ⇒ "aa"\n"aa"\n"aa"
+  - %w[a b c].map {|c| c.upcase} = %w[a b c].map {&:defupcase}
+  - yeller 
+  ```
+  def yeller (a = [])
+    a.map{|b| b.upcase}.join
+  end
+  ```
+  - "foobar".split('').shuffle.join
+
 ### 5章
 
 ## RSpec
