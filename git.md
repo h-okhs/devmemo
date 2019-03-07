@@ -47,3 +47,7 @@
   $ git commit --amend -m "new message"
 - herokuにブランチをmasterとしてpush
   $ git push heroku ブランチ名:master --force
+
+## HerokuにブランチPush
+
+git push heroku branch:master
